@@ -1,15 +1,20 @@
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import LoginPage from './Componenets/LoginPage/LoginPage';
-import NavBar from './Componenets/NavBar/NavBar';
-import StatusBar from './Componenets/StatusBar/StatusBar';
-import MainPage from './Componenets/MainPage/MainPage';
-import InfoSection from './Componenets/InfoSection/InfoSection';
 import Home from './Componenets/HomePage/Home';
+import { AuthProvider } from "./contexts/AuthContext";
+import PrivateRoute from './PrivateRoute';
 
 function App() {
   return (
-    <Home/>
+    <Router>
+      <AuthProvider>
+        <Switch>
+          <Route exact path='/' component={LoginPage} />
+          <PrivateRoute exact path='/home' component={Home} />
+        </Switch>
+      </AuthProvider>
+    </Router>
   );
 }
 

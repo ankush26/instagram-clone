@@ -1,34 +1,27 @@
 import React, { useState } from 'react';
 import "../LoginPage/LoginPage.css";
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function SignIN() {
-    const [state, setState] = useState({
-        emailId : null,
-        password: null
-    })
+    const initialData = {
+        email: '',
+        password: '',
+    }
+    const [data, setData] = useState(initialData)
 
-    const login=()=>{
-        // localStorage.setItem("users","admin");
-        // window.location.reload();
-        // auth.signInWithEmailAndPassword(this.state.emailId, this.state.password)
-        //     .then((userCredential) => {
-        //         // Signed in
-        //         var user = userCredential.user;
-        //         localStorage.setItem("users",JSON.stringify(user));
-        //         window.location.reload();
-        //         // ...
-        //     })
-        //     .catch((error) => {
-        //         var errorCode = error.code;
-        //         var errorMessage = error.message;
-        //     });
+    const handleChange = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value })
+    }
+
+    const handleSubmit = (e) => {
+       console.log('login Click');
     }
 
     return (
         <div>
-             <input className="logipage__text" onChange={(event)=>{state.emailId=event.currentTarget.value}} type="text" placeholder="Phone number, username, or email" />
-             <input className="logipage__text" onChange={(event)=>{state.password=event.currentTarget.value}}  type="password" placeholder="Password" />
-             <button className="login__button" onClick={login}>Log In</button>
+             <input name='email' className="logipage__text" onChange={handleChange} type="text" placeholder="Phone number, username, or email" />
+             <input name='password' className="logipage__text" onChange={handleChange}  type="password" placeholder="Password" />
+             <button className="login__button" onClick={handleSubmit}>Log In</button>
         </div> 
     )
 }
