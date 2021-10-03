@@ -23,7 +23,7 @@ export default function SignIN() {
         try {
             setLoading(true)
             await signin(data)
-            history.push("home/")
+            history.push("home")
         } catch (error) {
             console.log(error);
         }

@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./InfoSection.css";
 import { Avatar } from '@material-ui/core';
 import imageSrc from "../../images/pp1.png"
 
 
 export default function InfoSection() {
+    
     return (
         <div>
             <div className="info__container">
