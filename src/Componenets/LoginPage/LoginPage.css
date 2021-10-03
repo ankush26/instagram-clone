@@ -39,6 +39,7 @@ body {
     border:1px solid #0395F6;
     background-color: #0395F6;
     color: white;
+    cursor: pointer;
 }
 .login__ordiv {
     display: flex;
@@ -60,6 +61,7 @@ body {
     color: #395185;
     font-weight: bold;
     margin-top: 30px;
+    cursor: pointer;
 }
 .login_forgt {
     color: rgba(var(--fe0,0,55,107),1);
@@ -67,6 +69,7 @@ body {
     line-height: 14px;
     margin-top: 12px;
     text-align: center;
+    cursor: pointer;
 }
 .loginpage__signupoption {
     margin-top: 25px;

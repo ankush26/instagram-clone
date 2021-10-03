@@ -5,9 +5,11 @@
 }
 .navbar_logo{
     margin-top: 10px;
+    cursor: pointer;
 }
 .navbar__img {
     margin:15px 10px;
+    cursor: pointer;
 }
 .navbar__searchBar {
     height: 30px;

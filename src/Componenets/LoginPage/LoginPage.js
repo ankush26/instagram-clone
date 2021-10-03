@@ -54,10 +54,10 @@ export default function LoginPage() {
                                 {
                                     isLogin ?
                                         <div className="loginPage__signin">
-                                            Don't have an account? <span onClick={changeLogin} style={{ "fontWeight": "bold", "color": "#0395F6" }}>Sign up</span>
+                                            Don't have an account? <span onClick={changeLogin} style={{ "fontWeight": "bold", "color": "#0395F6", "cursor":"pointer" }}>Sign up</span>
                                         </div> :
                                         <div className="loginPage__signup">
-                                            Have an account? <span onClick={changeLogin} style={{ "fontWeight": "bold", "color": "#0395F6" }}>Sign in</span>
+                                            Have an account? <span onClick={changeLogin} style={{ "fontWeight": "bold", "color": "#0395F6", "cursor":"pointer" }}>Sign in</span>
                                         </div>
                                 }
 
