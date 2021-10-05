@@ -6,18 +6,18 @@ import love from "../../images/love.svg";
 import comment from "../../images/comment.svg";
 import share from "../../images/share.svg";
 
-export default function Post() {
+export default function Post(props) {
     return (
         <div className="post__container">
             {/* Header */}
             <div className="post__header">
                 <Avatar className="post__image" src="" />
-                <div className="post__username">ankush</div>
+                <div className="post__username">{props.userName}</div>
             </div>
 
             {/* Image */}
             <div>
-                <img src={postimage} width="615px" />
+                <img src={props.postImage} width="615px" />
             </div>
 
             {/* Analytics */}
