@@ -42,12 +42,8 @@ export function UserProvider({ children }) {
         console.log(postArray);
         setLoading(false)
         
-        return unsubscribe;
+        return  unsubscribe;
     }, []);
-
-    const getPost= ()=>{
-        
-    }
  
     const upload = (e) => {
         let image = e.target.files[0];
@@ -84,8 +80,6 @@ export function UserProvider({ children }) {
                 setProgressBar('');
             }
         )
-
-
     }
 
     const value = {
