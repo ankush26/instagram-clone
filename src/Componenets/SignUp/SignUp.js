@@ -26,7 +26,7 @@ export default function SignUp() {
         try {
             setLoading(true)
             await signup(data)
-            history.push("home")
+
         } catch (error) {
             console.log(error);
         }

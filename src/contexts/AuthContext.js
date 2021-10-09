@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import app from '../firebase'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
 import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { Link, useHistory } from "react-router-dom"
 
 const auth = getAuth(app)
 const db = getFirestore(app)
@@ -14,24 +15,37 @@ export function useAuth() {
 export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState()
     const [loading, setLoading] = useState(true)
+    const history = useHistory()
 
-    const signup = async ({ email, fullname, username, password }) => {
+    const signup = ({ email, fullname, username, password }) => {
         try {
-            const new_user = await createUserWithEmailAndPassword(auth, email, password)
-            await addDoc(collection(db, 'users'), {
-                uid: new_user.user.uid,
-                username,
-                fullname,
-                photoURL: '',
+            createUserWithEmailAndPassword(auth, email, password)
+            .then((new_user)=>{
+                addDoc(collection(db, 'users'), {
+                    uid: new_user.user.uid,
+                    username,
+                    fullname,
+                    photoURL: '',
+                })
+                setCurrentUser(new_user.user)
             })
-            console.log(new_user);
+            .then(()=>{
+                history.push("home")
+            })
+
         } catch (error) {
             console.log(error.message);
         }
     }
 
     function signin({email, password}) {
-        return signInWithEmailAndPassword(auth, email, password )
+        signInWithEmailAndPassword(auth, email, password )
+        .then((user)=>{
+            setCurrentUser(user.user)
+        })
+        .then(()=>{
+            history.push("home")
+        })
     }
 
     function logout() {
@@ -44,7 +58,7 @@ export function AuthProvider({ children }) {
             setLoading(false)
         })
 
-        console.log(currentUser);
+        console.log('user is :', currentUser);
         return unsubscribe();
     }, [])
 

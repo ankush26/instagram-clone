@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import app from '../firebase';
 
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { getFirestore, collection, query, where,onSnapshot, orderBy, getDocs, addDoc, setDoc, doc } from "firebase/firestore";
+import { getFirestore, collection, query, where, onSnapshot, orderBy, getDocs, addDoc, setDoc, doc } from "firebase/firestore";
 import { useAuth } from '../contexts/AuthContext';
 
 const db = getFirestore(app)
@@ -21,30 +21,31 @@ export function UserProvider({ children }) {
     const [postArray, setPostArray] = useState([]);
 
     useEffect(async () => {
-        //get User Data
-        const userquery = query(collection(db, "users"), where("uid", "==", currentUser.uid));
-        const userquerySnapshot = await getDocs(userquery);
-        userquerySnapshot.forEach((doc) => {
-            setUserdata(doc.data())
-        });
-
-        //get posts 
-        const unsubscribe =onSnapshot(
-            query(collection(db, "posts"), orderBy("timeStamp", "desc")), 
-            (snapshot) => {
-                // snapshot.docs.map((doc) => ( setPostArray([...postArray, doc.data()]) ))
-                setPostArray(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
-                console.log(postArray);
-            },
-            (error) => {
-              // ...
+        if (currentUser) {
+            //get User Data
+            const userquery = query(collection(db, "users"), where("uid", "==", currentUser.uid));
+            const userquerySnapshot = await getDocs(userquery);
+            userquerySnapshot.forEach((doc) => {
+                setUserdata(doc.data())
             });
-        console.log(postArray);
+            console.log('userquery is', userdata);
+
+            //get posts 
+            const unsubscribe = onSnapshot(
+                query(collection(db, "posts"), orderBy("timeStamp", "desc")),
+                (snapshot) => {
+                    // snapshot.docs.map((doc) => ( setPostArray([...postArray, doc.data()]) ))
+                    setPostArray(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
+                    console.log(postArray);
+                },
+                (error) => {
+                    // ...
+                });
+            console.log(postArray);
+        }
         setLoading(false)
-        
-        return  unsubscribe;
     }, []);
- 
+
     const upload = (e) => {
         let image = e.target.files[0];
         const storageRef = ref(storage, 'images/' + image.name);
@@ -70,7 +71,7 @@ export function UserProvider({ children }) {
                         }).then((docRef) => {
                             setDoc(doc(db, 'posts', docRef.id), {
                                 'id': docRef.id
-                            }, {merge:true})
+                            }, { merge: true })
                         })
 
                     } catch (error) {
