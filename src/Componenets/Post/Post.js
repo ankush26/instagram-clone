@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import "./Post.css";
 import { Avatar } from '@material-ui/core';
 import postimage from "../../images/post.jpg";
@@ -6,10 +6,12 @@ import love from "../../images/love.svg";
 import commentIcon from "../../images/comment.svg";
 import share from "../../images/share.svg";
 import app from '../../firebase';
-import { getFirestore, collection, query, where,onSnapshot, orderBy, getDocs, addDoc, setDoc, doc } from "firebase/firestore";
+import { getFirestore, collection, query, where, onSnapshot, orderBy, getDocs, addDoc, setDoc, doc } from "firebase/firestore";
 import { useAuth } from '../../contexts/AuthContext';
+import { useUser } from '../../contexts/UserContext';
 
 export default function Post(props) {
+    const { userdata } = useUser();
     const { currentUser } = useAuth();
     const db = getFirestore(app)
     const [comment, setComment] = useState("");
@@ -17,28 +19,28 @@ export default function Post(props) {
     const [isModal, setIsModal] = useState(false);
 
     useEffect(() => {
-        const unsubscribe =onSnapshot(
-            query(collection(db, "posts/"+props.id+"/comments"), orderBy("timeStamp", "desc")), 
+        const unsubscribe = onSnapshot(
+            query(collection(db, "posts/" + props.id + "/comments"), orderBy("timeStamp", "desc")),
             (snapshot) => {
                 // snapshot.docs.map((doc) => ( setPostArray([...postArray, doc.data()]) ))
                 setPostComments(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })))
             },
             (error) => {
-    
+
             });
-            console.log(postComments);
+        console.log(postComments);
         return unsubscribe;
-        
-    }, []);
+
+    }, [postComments]);
 
     const sumbitComment = async (e) => {
         e.preventDefault();
         console.log('comment enter');
         try {
-            await addDoc(collection(db, 'posts/'+props.id+'/comments'), {
+            await addDoc(collection(db, 'posts/' + props.id + '/comments'), {
                 comment,
                 "timeStamp": new Date().getTime(),
-                "uid": currentUser.uid,
+                "username": userdata.username,
             });
             setComment('')
         } catch (error) {
@@ -73,8 +75,11 @@ export default function Post(props) {
 
             {/* Comment Section */}
             <div>
-
-                <div className="post_comment">{postComments[0]?.comment}</div> <span></span>
+                <div className="suggestions__friends" style={{"margin":'10px'}}>
+                    <Avatar src='' className="suggestions__image" />
+                    <div className="suggestions__username">{postComments[0]?.username}</div>
+                    <div className="post_comment">{postComments[0]?.comment}</div> <span></span>
+                </div>
                 <form onSubmit={sumbitComment}>
                     <input text="text" className="post__commentbox" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Add a comment..." />
                 </form>

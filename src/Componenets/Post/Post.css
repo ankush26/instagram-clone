@@ -24,8 +24,7 @@
     margin: 5px;
 }
 .post_comment {
-    margin: 10px;
-    margin-left: 20px;
+    margin: 10px 0px;
 }
 .post__commentbox {
     height: 56px;
