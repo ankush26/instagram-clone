@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useCallback } from 'react'
 import app from '../firebase';
 
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -19,7 +19,6 @@ export function UserProvider({ children }) {
     const [loading, setLoading] = useState(true)
     const [progressBar, setProgressBar] = useState('');
     const [postArray, setPostArray] = useState([]);
-
     useEffect(async () => {
         if (currentUser) {
             //get User Data
@@ -87,7 +86,7 @@ export function UserProvider({ children }) {
         userdata,
         upload,
         progressBar,
-        postArray
+        postArray,
     }
     return (
         <UserContext.Provider value={value}>
