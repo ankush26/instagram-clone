@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import "./Post.css";
-import { Avatar } from '@material-ui/core';
+import { Avatar, Modal } from '@material-ui/core';
 import postimage from "../../images/post.jpg";
 import love from "../../images/love.svg";
 import PostModal from "../../Componenets/PostModal/PostModal";
@@ -21,6 +21,7 @@ export default function Post(props) {
     const [isLike, setIsLike] = useState(false);
     const [totalLike, setTotalLike] = useState(0);
     const [isModal, setIsModal] = useState(false);
+    const [showPost, setShowPost] = useState(false);
 
     useEffect(() => {
         const unsubscribe = onSnapshot(
@@ -92,7 +93,7 @@ export default function Post(props) {
             </div>
 
             {/* Image */}
-            <div onDoubleClick={handleLike} onClick={() => setIsModal(true)}>
+            <div onDoubleClick={handleLike} onMouseDown={() => setShowPost(true)}>
                 <img src={props.postImage} width="615px" />
             </div>
 
@@ -100,11 +101,11 @@ export default function Post(props) {
             <div>
                 <div style={{ "marginLeft": "10px" }}>
                     <img src={isLike ? likelove : love} className="post_reactimage" onClick={handleLike} />
-                    <img src={commentIcon} className="post_reactimage" onClick={() => setIsModal(true)}/>
+                    <img src={commentIcon} className="post_reactimage" onClick={() => setIsModal(true)} />
                     <img src={share} className="post_reactimage" />
                 </div>
                 <div style={{ "fontWeight": "bold", "marginLeft": "20px  " }}>
-                {totalLike} likes
+                    {totalLike} likes
                 </div>
             </div>
 
@@ -120,8 +121,14 @@ export default function Post(props) {
                 </form>
             </div>
             {isModal && (
-        <PostModal postComments={postComments} postImage={props.postImage} postUsername={props.userName} isModal={isModal} setIsModal={setIsModal} />
-      )}
+                <PostModal postComments={postComments} postImage={props.postImage} postUsername={props.userName} isModal={isModal} setIsModal={setIsModal} />
+            )}
+
+            {showPost && (
+                <Modal open={showPost} onMouseUp={() => setShowPost(false)}>
+                    <div className="post_modal__body"><img src={props.postImage} width="90%" /></div>
+                </Modal>
+            )}
         </div>
     )
 }
