@@ -1,0 +1,92 @@
+
+.post_modal__body {
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .post_modal__body .post_modal__content {
+    background: #fff;
+    max-width: 1000px;
+    display: flex;
+    position: relative;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .post_modal__body .post_modal__content {
+      display: block;
+      max-width: 500px;
+    }
+  }
+  
+  @media screen and (max-width: 500px) {
+    .post_modal__body .post_modal__content {
+      max-width: 300px;
+    }
+  }
+  
+  .post_modal__body .post_modal__close {
+    position: absolute;
+    top: -10%;
+    right: -5%;
+    font-size: 2rem;
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .post_modal__body .post_modal__close {
+      top: -20px;
+      right: -20px;
+    }
+  }
+  
+  @media screen and (max-width: 500px) {
+    .post_modal__body .post_modal__close {
+      top: -20px;
+      right: -30px;
+    }
+  }
+  
+  .post_modal__body .post__img {
+    flex: 2;
+  }
+  
+  .post_modal__body .post__img img {
+    width: 100%;
+  }
+  
+  .post_modal__body .post__body {
+    flex: 1;
+    padding: 1rem 1.5rem;
+  }
+  
+  .post_modal__body .post__body .post__user {
+    display: flex;
+    align-items: center;
+  }
+  
+  .post_modal__body .post__body .post__user h3 {
+    margin-left: 10px;
+  }
+  
+  .post_modal__body .post__body .post__caption {
+    line-height: 1.6;
+    margin-top: 1rem;
+  }
+  
+  .post_modal__body .post__commentsHeading {
+    margin: 1rem 0;
+  }
+  
+  .post_modal__body .post__comments {
+    height: 150px;
+    overflow-y: auto;
+  }

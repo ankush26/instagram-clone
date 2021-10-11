@@ -3,6 +3,7 @@ import "./Post.css";
 import { Avatar } from '@material-ui/core';
 import postimage from "../../images/post.jpg";
 import love from "../../images/love.svg";
+import PostModal from "../../Componenets/PostModal/PostModal";
 import commentIcon from "../../images/comment.svg";
 import share from "../../images/share.svg";
 import likelove from "../../images/likelove.png";
@@ -18,7 +19,9 @@ export default function Post(props) {
     const [comment, setComment] = useState("");
     const [postComments, setPostComments] = useState([]);
     const [isLike, setIsLike] = useState(false);
-    const [totalLike, setTotalLike] = useState(0)
+    const [totalLike, setTotalLike] = useState(0);
+    const [isModal, setIsModal] = useState(false);
+
     useEffect(() => {
         const unsubscribe = onSnapshot(
             query(collection(db, "posts/" + props.id + "/comments"), orderBy("timeStamp", "desc")),
@@ -89,7 +92,7 @@ export default function Post(props) {
             </div>
 
             {/* Image */}
-            <div>
+            <div onDoubleClick={handleLike} onClick={() => setIsModal(true)}>
                 <img src={props.postImage} width="615px" />
             </div>
 
@@ -97,7 +100,7 @@ export default function Post(props) {
             <div>
                 <div style={{ "marginLeft": "10px" }}>
                     <img src={isLike ? likelove : love} className="post_reactimage" onClick={handleLike} />
-                    <img src={commentIcon} className="post_reactimage" />
+                    <img src={commentIcon} className="post_reactimage" onClick={() => setIsModal(true)}/>
                     <img src={share} className="post_reactimage" />
                 </div>
                 <div style={{ "fontWeight": "bold", "marginLeft": "20px  " }}>
@@ -116,7 +119,9 @@ export default function Post(props) {
                     <input text="text" className="post__commentbox" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Add a comment..." />
                 </form>
             </div>
-
+            {isModal && (
+        <PostModal postComments={postComments} postImage={props.postImage} postUsername={props.userName} isModal={isModal} setIsModal={setIsModal} />
+      )}
         </div>
     )
 }
